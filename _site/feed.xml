@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-02-01T21:48:04+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Operating Systems</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2020/02/01/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2020-02-01T21:38:36+05:30</published><updated>2020-02-01T21:38:36+05:30</updated><id>http://localhost:4000/jekyll/update/2020/02/01/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2020/02/01/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-04T11:29:12+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Getting my head around it!</title><subtitle></subtitle><entry><title type="html">Application Performance Management</title><link href="http://localhost:4000/category/2020/07/30/APM.html" rel="alternate" type="text/html" title="Application Performance Management" /><published>2020-07-30T00:00:00+05:30</published><updated>2020-07-30T00:00:00+05:30</updated><id>http://localhost:4000/category/2020/07/30/APM</id><content type="html" xml:base="http://localhost:4000/category/2020/07/30/APM.html">&lt;h1 id=&quot;application-performance-management-apm&quot;&gt;Application Performance Management (APM)&lt;/h1&gt;
+
+&lt;h2 id=&quot;heap-peep-with-the-jcmd-utility&quot;&gt;Heap Peep with the jcmd utility&lt;/h2&gt;
+&lt;p&gt;Referred from - &lt;a href=&quot;https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html&quot;&gt;Oracle Documentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Find all Java PIDs&lt;/p&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jcmd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Create a heap dump&lt;/p&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jcmd &amp;lt;PID&amp;gt; Thread.print | &lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n100&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; MyHeapDump.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Furthermore, configured the JCMD in the crontab to capture the dumps at intervals to see the application performance.&lt;/p&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0 0 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; sh /path/to/heap_peep.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The exported heap dump file could be analyzed online with several online portals - &lt;a href=&quot;https://fastthread.io/&quot;&gt;FastThread&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;glowroot&quot;&gt;Glowroot&lt;/h2&gt;
+&lt;p&gt;Referred from - &lt;a href=&quot;https://glowroot.org/&quot;&gt;Glowroot&lt;/a&gt; - &lt;a href=&quot;https://github.com/glowroot/glowroot&quot;&gt;Glowroot github&lt;/a&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Common steps
+    &lt;ol&gt;
+      &lt;li&gt;Download the glowroot jar, extract the jar.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Configuring Glowroot for single application
+    &lt;ol&gt;
+      &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;-javaagent:path/to/glowroot.jar&lt;/code&gt; to JVM args. (For web application, the JAVA_OPTS are usually in the setenv.sh file. For standalone application, the argument is passed along with the other args.)&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;java -jar -javaagent:path/to/glowroot.jar MyApp.jar&lt;/code&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Configuring Glowroot for multiple applications running in the same box
+    &lt;ol&gt;
+      &lt;li&gt;Referred from &lt;a href=&quot;https://github.com/glowroot/glowroot/wiki/Agent-Installation-(with-Embedded-Collector)&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;Create a new file glowroot.properties under the Glowroot Agent folder add the below line multi.dir=true in the properties file&lt;/li&gt;
+      &lt;li&gt;Add this to the JVM args for each app where the glowroot has to be configured &lt;code class=&quot;highlighter-rouge&quot;&gt;-Dglowroot.agent.id=MyAppName&lt;/code&gt; along with &lt;code class=&quot;highlighter-rouge&quot;&gt;-javaagent:path/to/glowroot.jar&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;Once the above steps are complete and the app is restarted, there will be a new folder with name &lt;strong&gt;agent-MyAppName&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;In the &lt;strong&gt;admin.json&lt;/strong&gt; under the new folder (MyAppName in this example), change the port and the context path(if required). Now glowroot is accessible by 127.0.0.1:4000/MyAppName-glowroot
+        &lt;pre&gt;&lt;code class=&quot;language-JSON&quot;&gt;&quot;port&quot;: 4001,
+&quot;bindAddress&quot;: &quot;127.0.0.1&quot;,
+&quot;contextPath&quot;: &quot;/MyAppName-glowroot&quot;,
+&quot;sessionTimeoutMinutes&quot;: 30,
+&quot;sessionCookieName&quot;: &quot;GLOWROOT_SESSION_ID&quot;
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Repeat step 3 to 5 to configure for another application.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Note : Configure ProxyPass on apache or nginx to allow request forwarding if a particular port is not open.&lt;/p&gt;</content><author><name></name></author><category term="category" /><summary type="html">Application Performance Management (APM)</summary></entry><entry><title type="html">ACID Properties</title><link href="http://localhost:4000/category/2020/07/15/ACID.html" rel="alternate" type="text/html" title="ACID Properties" /><published>2020-07-15T00:00:00+05:30</published><updated>2020-07-15T00:00:00+05:30</updated><id>http://localhost:4000/category/2020/07/15/ACID</id><content type="html" xml:base="http://localhost:4000/category/2020/07/15/ACID.html">&lt;h1 id=&quot;notes-on-acid-properties-in-sql&quot;&gt;Notes on ACID properties in SQL&lt;/h1&gt;
+
+&lt;p&gt;A &lt;strong&gt;DB transaction&lt;/strong&gt; is a set of logically related queries(statements) which access data by reading and writing into the DB. ACID properties when applied to a trasaction helps keep the data consistent on the DB before and after the transaction.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Automicity, Consistency, Isolation, Durability&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Automicity 	- Atomic transaction. A transaction must take place only once.
+A transaction must complete or fail altogether. There is no intermidiate state for a transaction. After a successful transaction, a &lt;strong&gt;commit&lt;/strong&gt; saves the data. &lt;strong&gt;Abort&lt;/strong&gt; happens when there is a problem in the transaction and all the previous steps must be rolled back to keep the data consistent.&lt;/li&gt;
+  &lt;li&gt;Consistency 	- Correctness of data. Data must be consistent before and after the transaction&lt;/li&gt;
+  &lt;li&gt;Isolation 	- Each transaction is treated as different, runs indepently from the other transaction
+Concurrent transactions do not result in data inconsistency.&lt;/li&gt;
+  &lt;li&gt;Durability 	- The changes of a transaction are applied on the DB irrespective of the system status.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Locking and multi-versioning.&lt;/strong&gt;
+Concurrent transactions do not result in data inconsistency.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Locking 				- DB locks the record(s). 2 main techniques - WAL and Shadow paging (Postgres uses WAL also for replication)&lt;/li&gt;
+  &lt;li&gt;multi-versioning&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Complying to ACID properties in distributed DB environment becomes a challenge.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Further Reading&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Postgres is a transactional DB. Each statement is executed with an implicit transaction - &lt;a href=&quot;https://www.postgresql.org/docs/8.3/tutorial-transactions.html&quot;&gt;Postgres transactions&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://people.apache.org/~jim/NewArchitect/webtech/2001/09/jepson/index.html&quot;&gt;Postgres ACID compliant&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="category" /><summary type="html">Notes on ACID properties in SQL</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2020/02/01/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2020-02-01T21:38:36+05:30</published><updated>2020-02-01T21:38:36+05:30</updated><id>http://localhost:4000/jekyll/update/2020/02/01/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2020/02/01/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
 
