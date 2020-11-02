@@ -45,6 +45,8 @@ Collections.sort();
 * If the class is going to implement all of the functionalities and your child class can be used as a substitute for your parent class, use inheritance.
 * If the class is going to implement some specific functionalities, use composition.
 
+Design patterns adhere to 2 principles - Programe an interface and not implementation and use composition over interfaces.
+
 ## Law of Demeter
 The Law of Demeter for functions/methods requires that a method M of an object O may only invoke the methods of the following kinds of objects:
 * O itself
